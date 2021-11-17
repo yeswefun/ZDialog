@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">zdialog</string>
+
+    <!-- 评论框文字 -->
+    <string name="comment_dialog_send_button">发送</string>
+    <string name="comment_dialog_cancel_button">取消</string>
+    <string name="comment_dialog_share_label">分享到：</string>
+    <string name="comment_dialog_hint">期待你的神评论</string>
+
+</resources>
