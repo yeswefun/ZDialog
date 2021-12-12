@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/comment_dialog_bg"
+        android:orientation="vertical"
+        android:padding="10.0dip">
+
+        <EditText
+            android:id="@+id/comment_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_detail_comment_editor"
+            android:hint="@string/comment_dialog_hint"
+            android:maxHeight="120.0dip"
+            android:padding="9.0dip"
+            android:textColor="@color/comment_dialog_content_text"
+            android:textSize="16.0sp" />
+
+        <TextView
+            android:id="@+id/cancel_btn"
+            android:layout_width="50.0dip"
+            android:layout_height="25.0dip"
+            android:layout_below="@+id/comment_editor"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/bg_comment_submit"
+            android:gravity="center"
+            android:text="@string/comment_dialog_cancel_button"
+            android:textColor="@color/comment_dialog_submit_text"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:id="@+id/submit_btn"
+            android:layout_width="50.0dip"
+            android:layout_height="25.0dip"
+            android:layout_below="@+id/comment_editor"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bg_comment_submit"
+            android:gravity="center"
+            android:text="@string/comment_dialog_send_button"
+            android:textColor="@color/comment_dialog_submit_text"
+            android:textSize="13.0sp" />
+    </RelativeLayout>
+</FrameLayout>

@@ -42,7 +42,7 @@ class ZDialogViewHelper {
                 mCacheViews.put(viewId, new WeakReference<>(view));
             }
         }
-        return (T)view;
+        return (T) view;
     }
 
     public void setText(int viewId, CharSequence text) {
@@ -52,10 +52,27 @@ class ZDialogViewHelper {
         }
     }
 
-    public void setOnClickListener(int viewId, View.OnClickListener listener) {
+    public void setOnClickListener(int viewId, ZDialogInterface.OnClickListener listener, ZDialog dialog) {
         View view = findView(viewId);
-        if (view != null) {
-            view.setOnClickListener(listener);
+        if (view != null && listener != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClick(dialog);
+                }
+            });
+        }
+    }
+
+    public void setOnSubmitListener(int viewId, ZDialogInterface.OnSubmitListener listener, ZDialog dialog) {
+        View view = findView(viewId);
+        if (view != null && listener != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onSubmit(dialog, mContentView);
+                }
+            });
         }
     }
 

@@ -1,10 +1,7 @@
 package com.z.zdialog.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Resources;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +13,20 @@ import com.z.zdialog.R;
 /*
     继承自Dialog
  */
-public class ZDialog extends Dialog {
+public class ZDialog extends Dialog implements ZDialogInterface {
 
-    private ZDialogCtl mCtl;
+    private ZDialogCtl mDialogCtl;
+
+    public ZDialogCtl getDialogCtl() {
+        return mDialogCtl;
+    }
 
     /*
         protected不让外界new
      */
     protected ZDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
-        mCtl = new ZDialogCtl(this, getWindow());
+        mDialogCtl = new ZDialogCtl(this, getWindow());
     }
 
     public static class Builder {
@@ -42,7 +43,7 @@ public class ZDialog extends Dialog {
 
         public ZDialog create() {
             final ZDialog dialog = new ZDialog(P.mContext, P.mThemeResId);
-            P.apply(dialog.mCtl);
+            P.apply(dialog);
             dialog.setCancelable(P.mCancelable);
             if (P.mCancelable) {
                 dialog.setCanceledOnTouchOutside(true);
@@ -96,11 +97,17 @@ public class ZDialog extends Dialog {
             return this;
         }
 
-        public ZDialog.Builder setOnClickListener(int viewId, View.OnClickListener listener) {
+        public ZDialog.Builder setOnClickListener(int viewId, ZDialogInterface.OnClickListener listener) {
             P.mClickArray.put(viewId, listener);
             return this;
         }
 
+        public ZDialog.Builder setOnSubmitListener(int viewId, ZDialogInterface.OnSubmitListener listener) {
+            P.mSubmitArray.put(viewId, listener);
+            return this;
+        }
+
+        // 窗口的一些属性
         public ZDialog.Builder fullScreenWidth() {
             P.mWidth = ViewGroup.LayoutParams.MATCH_PARENT;
             return this;

@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import java.util.HashMap;
-
 /*
     去掉public不让外面使用
  */
@@ -63,7 +61,9 @@ class ZDialogCtl {
 
         public SparseArray<CharSequence> mTextArray = new SparseArray<>();
 
-        public SparseArray<View.OnClickListener> mClickArray = new SparseArray<>();
+        public SparseArray<ZDialogInterface.OnClickListener> mClickArray = new SparseArray<>();
+
+        public SparseArray<ZDialogInterface.OnSubmitListener> mSubmitArray = new SparseArray<>();
 
         /*
             对话框的宽度
@@ -92,7 +92,7 @@ class ZDialogCtl {
         /*
             将P中的参数设置到dialog中
          */
-        public void apply(ZDialogCtl mCtl) {
+        public void apply(ZDialog dialog) {
 
             // 设置布局
             ZDialogViewHelper viewHelper = null;
@@ -110,7 +110,7 @@ class ZDialogCtl {
             }
 
             // 给dialog设置布局
-            mCtl.getDialog().setContentView(viewHelper.getContentView());
+            dialog.setContentView(viewHelper.getContentView());
 
             // 设置文本
             int textArraySize = mTextArray.size();
@@ -121,16 +121,25 @@ class ZDialogCtl {
             // 设置点击
             int clickArraySize = mClickArray.size();
             for (int x = 0; x < clickArraySize; x++) {
-                viewHelper.setOnClickListener(mClickArray.keyAt(x), mClickArray.valueAt(x));
+                viewHelper.setOnClickListener(mClickArray.keyAt(x), mClickArray.valueAt(x), dialog);
             }
 
-            // 设置自定义效果
-            Window window = mCtl.getWindow();
+            // 设置提交
+            int submitArraySize = mSubmitArray.size();
+            for (int x = 0; x < submitArraySize; x++) {
+                viewHelper.setOnSubmitListener(mSubmitArray.keyAt(x), mSubmitArray.valueAt(x), dialog);
+            }
+
+            // 设置窗口位置
+            Window window = dialog.getDialogCtl().getWindow();
             window.setGravity(mGravity);
+
+            // 设置窗口动画
             if (mAnimations != 0) {
                 window.setWindowAnimations(mAnimations);
             }
 
+            // 设置窗口宽高
             WindowManager.LayoutParams lp = window.getAttributes();
             lp.width = mWidth;
             lp.height = mHeigth;

@@ -2,14 +2,16 @@ package com.z.zdialog;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.z.zdialog.dialog.ZDialog;
+import com.z.zdialog.dialog.ZDialogInterface;
 
 /*
     AlertDialog不能够直接new, 因为构造方法的修饰符是protected
@@ -39,6 +41,10 @@ import com.z.zdialog.dialog.ZDialog;
         延迟分配内存
 
     TODO: 添加更多自定义对话框布局
+
+    TODO: 设置文字与设置监听器是否可以简化成一步
+
+    TODO: dialogBuilder自P.apply()之后就不能再设置事件了呀
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -83,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
         new ZDialog.Builder(this)
                 .setView(R.layout.zdialog_view)
                 .setText(R.id.submit_btn, "发送")
-                .setOnClickListener(R.id.account_icon_weibo, new View.OnClickListener() {
+                .setOnClickListener(R.id.account_icon_weibo, new ZDialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(ZDialogInterface dialog) {
                         Toast.makeText(MainActivity.this, "微博分享", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -93,48 +99,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void handleShowDialogFromBottom(View view) {
-        ZDialog.Builder dialogBuilder = new ZDialog.Builder(this)
-                .setView(R.layout.zdialog_view)
+        new ZDialog.Builder(this)
+                .setView(R.layout.v_comment_box)
                 .setText(R.id.submit_btn, "发送")
-                .setOnClickListener(R.id.account_icon_weibo, new View.OnClickListener() {
+                .setOnClickListener(R.id.cancel_btn, new ZDialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "新浪微博分享", Toast.LENGTH_SHORT).show();
+                    public void onClick(ZDialogInterface dialog) {
+                        dialog.dismiss();
                     }
                 })
-                .setOnClickListener(R.id.account_icon_tencent, new View.OnClickListener() {
+                .setOnSubmitListener(R.id.submit_btn, new ZDialogInterface.OnSubmitListener() {
                     @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "腾讯微博分享", Toast.LENGTH_SHORT).show();
+                    public void onSubmit(ZDialogInterface dialog, View content) {
+                        EditText editText = content.findViewById(R.id.comment_editor);
+                        String text = editText.getText().toString();
+                        if (TextUtils.isEmpty(text)) {
+                            Toast.makeText(MainActivity.this, "提交内容不能为空", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(MainActivity.this, "提交: " + editText.getText(), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }
                 })
                 .setCancelable(false)
                 .fromBottom(true)
-                .fullScreenWidth();
-
-        // TODO: dialog没有办法在builder设置参数时设置取消对话框(此时对话框正在初始化), 即隐藏对话框
-        // TODO: dialogBuilder自P.apply()之后就不能再设置事件了呀
-        ZDialog dialog = dialogBuilder.create();
-        dialogBuilder.setOnClickListener(R.id.cancel_btn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "cancel btn was clicked!");
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+                .fullScreenWidth()
+                .show();
     }
 
     public void handleShowDialogFromTop(View view) {
         new ZDialog.Builder(this)
-                .setView(R.layout.zdialog_view)
+                .setView(R.layout.v_comment_box)
                 .setText(R.id.submit_btn, "发送")
-                .setOnClickListener(R.id.account_icon_weibo, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "微博分享", Toast.LENGTH_SHORT).show();
-                    }
-                })
                 .fromTop(true)
                 .fullScreenWidth()
                 .show();
