@@ -1,11 +1,13 @@
 package com.z.zdialog;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.z.zdialog.dialog.ZDialog;
 
@@ -35,6 +37,8 @@ import com.z.zdialog.dialog.ZDialog;
     特点:
         参数设置与顺序无关
         延迟分配内存
+
+    TODO: 添加更多自定义对话框布局
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +48,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void handleShowSystemDialog(View view) {
+        new AlertDialog.Builder(this)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTitle("对话框的标题呀!")       // Builder
+                .setMessage("对话框的消息呀")      // Builder
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "PositiveButton", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "NegativeButton", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNeutralButton("稍后再问", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "NeutralButton", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                //.setView(R.layout.view_dialog)
+                .setCancelable(false)
+                .create()                       // AlertDialog
+                .show();                        // void
     }
 
     public void handleShowDialogCenter(View view) {
@@ -79,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 .fromBottom(true)
                 .fullScreenWidth();
 
-        // TODO: dialog没有办法在builder设置参数时设置取消对话框, 即隐藏对话框(此时正在初始化)
+        // TODO: dialog没有办法在builder设置参数时设置取消对话框(此时对话框正在初始化), 即隐藏对话框
         // TODO: dialogBuilder自P.apply()之后就不能再设置事件了呀
         ZDialog dialog = dialogBuilder.create();
         dialogBuilder.setOnClickListener(R.id.cancel_btn, new View.OnClickListener() {

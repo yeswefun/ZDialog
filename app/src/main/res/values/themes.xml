@@ -14,18 +14,22 @@
 
         <!-- Customize your theme here. -->
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
     </style>
 
 
     <!-- 对话框的默认主题样式 -->
     <style name="zdialog" parent="Theme.AppCompat.Dialog">
+        <!-- 提示框是否有边框 -->
         <item name="android:windowFrame">@null</item>
+        <!-- 提示框是否浮动 -->
         <item name="android:windowIsFloating">true</item>
+        <!-- 提示框是否透明 -->
         <item name="android:windowIsTranslucent">true</item>
+        <!-- 提示框是否有标题 -->
         <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 提示框是否有标题 -->
         <item name="android:windowNoTitle">true</item>
+        <!-- 提示框背景是否变暗 -->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
@@ -45,4 +49,10 @@
         <item name="android:windowExitAnimation">@anim/dialog_fade_out</item>
     </style>
 
+    <!-- 测试按钮样式 -->
+    <style name="test_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="textAllCaps">false</item>
+    </style>
 </resources>

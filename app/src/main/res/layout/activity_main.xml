@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <Button
+        style="@style/test_btn"
+        android:onClick="handleShowSystemDialog"
+        android:text="系统对话框" />
+
+    <Button
+        style="@style/test_btn"
         android:onClick="handleShowDialogCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
         android:text="居中显示对话框" />
 
     <Button
+        style="@style/test_btn"
         android:onClick="handleShowDialogFromBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
         android:text="从底部显示对话框" />
 
     <Button
+        style="@style/test_btn"
         android:onClick="handleShowDialogFromTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
         android:text="从顶部显示对话框" />
 
 </LinearLayout>
